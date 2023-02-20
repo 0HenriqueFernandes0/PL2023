@@ -3,21 +3,28 @@ from cache import Cache
 def print_tabelas(dict):
     string = ""
     tam_1=0
-    for nome in dict.keys():
+    keys = list(dict.keys())
+    for nome in keys:
         if (len(nome)>tam_1):
             tam_1 = len(nome)
-    tam_1+=2
+    tam_1 += 2
+    tam_2 = 0
+    for valor in dict.values():
+        if (len(str(valor))>tam_1):
+            tam_2 = len(str(valor))
+    tam_2+=2
 
-    for i in range(tam_1*2):
+    for i in range(tam_1+tam_2):
         string+= '-'
-    keys = dict.keys()
+
     for i in range(len(keys)):
         string += "\n|" + keys[i]
         for n in range(len(keys[i]),tam_1):
             string+= ' '
-        string += '|' + dict[keys[i]] + "|\n"
-        for i in range(tam_1 * 2):
+        string += '|' + str(dict[keys[i]]) + "|\n"
+        for i in range(tam_1 +tam_2):
             string += '-'
+    print(string)
 def main():
     tabela = Cache()
     path="myheart.csv"

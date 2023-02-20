@@ -31,8 +31,8 @@ class Cache:
             elif pessoa[1] == 0 and pessoa[5] == 1:
                 muheres += 1
         dict = {}
-        dict['muheres'] = muheres / (homens + muheres)
-        dict['homens'] = homens / (homens + muheres)
+        dict['Muheres'] = muheres / (homens + muheres)
+        dict['Homens'] = homens / (homens + muheres)
         return dict
 
     def exc2(self):
