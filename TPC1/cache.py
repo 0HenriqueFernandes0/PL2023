@@ -46,9 +46,11 @@ class Cache:
                 escaloes[pessoa[0] // 5 - 6] += 1
         print("Distribuição da doença por escalões etários:")
         i = 0
+        dict = {}
         for escalao in escaloes:
-            print(f"[{i*5+30}-{i*5+34}]:{escalao/total*100}%")
+            dict [f"[{i*5+30}-{i*5+34}]"] = escalao/total*100
             i += 1
+        return dict
 
     def exc3(self):
         escaloes = []
@@ -61,8 +63,10 @@ class Cache:
                 escaloes[pessoa[3] // 10] += 1
         print("Distribuição da doença por escalões etários:")
         i=0
+        dict ={}
         for escalao in escaloes:
-            print(f"[{i*10}-{i*10+9}]:{escalao/total*100}%")
+            dict[f"[{i*10}-{i*10+9}]"]=escalao/total*100
             i += 1
+        return dict
 
 

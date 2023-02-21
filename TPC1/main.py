@@ -7,23 +7,30 @@ def print_tabelas(dict):
     for nome in keys:
         if (len(nome)>tam_1):
             tam_1 = len(nome)
-    tam_1 += 2
+    tam_1 += 4
     tam_2 = 0
     for valor in dict.values():
         if (len(str(valor))>tam_1):
             tam_2 = len(str(valor))
-    tam_2+=2
+    tam_2 += 4
 
-    for i in range(tam_1+tam_2):
-        string+= '-'
+    for i in range(tam_1+tam_2+1):
+        string += '-'
 
     for i in range(len(keys)):
         string += "\n|" + keys[i]
-        for n in range(len(keys[i]),tam_1):
-            string+= ' '
-        string += '|' + str(dict[keys[i]]) + "|\n"
-        for i in range(tam_1 +tam_2):
+        for n in range(len(keys[i]), tam_1-1):
+            string += ' '
+        string += '|' + str(dict[keys[i]])
+        for n in range(len(str(dict[keys[i]])), tam_2-1):
+            string += ' '
+        string += "|\n|"
+        for i in range(tam_1-1):
             string += '-'
+        string += "|"
+        for i in range(tam_2-1):
+            string += '-'
+        string += "|"
     print(string)
 def main():
     tabela = Cache()
@@ -44,9 +51,9 @@ def main():
         if option == 0:
             print_tabelas(tabela.exc1())
         elif option == 1:
-            tabela.exc2()
+            print_tabelas(tabela.exc2())
         elif option == 2:
-            tabela.exc3()
+            print_tabelas(tabela.exc3())
         else:
             option = -1
 
