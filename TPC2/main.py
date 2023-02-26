@@ -29,7 +29,7 @@ def main():
 
             if charecter == "=":
                 print(f"Soma: {contador}")
-            if ON == True and charecter.isdigit():
+            elif ON == True and charecter.isdigit():
                 contador += int(charecter)
 
 
