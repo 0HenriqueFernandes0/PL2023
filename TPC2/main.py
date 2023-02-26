@@ -28,7 +28,7 @@ def main():
                     of_signal = 0
 
             if charecter == "=":
-                print(f"Existem {contador} sequencias de digitos")
+                print(f"Soma: {contador}")
             if ON == True and charecter.isdigit():
                 contador += int(charecter)
 
