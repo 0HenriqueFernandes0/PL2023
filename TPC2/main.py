@@ -10,13 +10,17 @@ def main():
 
         for charecter in text:
 
-            if charecter == "O" or charecter == "o":
+            if charecter == "=":
+                print(f"Soma: {contador}")
+            elif ON == True and charecter.isdigit():
+                contador += int(charecter)
+            elif charecter.lower() == "o":
                 start_ON_OFF = True
             elif start_ON_OFF == True:
-                if charecter == "N" or charecter == "n" and of_signal==0:
+                if charecter.lower() == "n" and of_signal == 0:
                     ON = True
                     start_ON_OFF = False
-                elif charecter == "F" or charecter == "f":
+                elif charecter.lower() == "f":
                     if of_signal == 0:
                         of_signal +=1
                     elif of_signal == 1:
@@ -27,10 +31,6 @@ def main():
                     start_ON_OFF = False
                     of_signal = 0
 
-            if charecter == "=":
-                print(f"Soma: {contador}")
-            elif ON == True and charecter.isdigit():
-                contador += int(charecter)
 
 
 if __name__ == '__main__':
