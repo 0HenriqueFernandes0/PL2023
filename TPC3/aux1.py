@@ -98,8 +98,7 @@ def print_tabelas(dict1,dim):
 
     separador="-"
     for i in tam:
-        for j in range(i+1):
-            separador+="-"
+        separador+=("-" * (i+1))
     separador+="\n"
 
     tabela = separador
@@ -107,13 +106,9 @@ def print_tabelas(dict1,dim):
         colum=0
         new_line="|"
         for valor in line:
-            valor=str(valor)
-            for i in range(len(valor),tam[colum]):
-                valor+=" "
+            new_line += str(valor) + " " *(tam[colum]-len(str(valor))) +"|"
             colum+=1
-            new_line += valor +"|"
-        tabela+=new_line +"\n"
-        tabela+=separador
+        tabela+=new_line + "\n" + separador
     print(tabela)
 
 def dict_to_matriz(dict1):
