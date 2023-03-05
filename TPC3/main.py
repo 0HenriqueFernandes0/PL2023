@@ -1,4 +1,5 @@
 import re
+from aux1 import*
 
 def parse(path):
     file = open(path,"r")
@@ -9,7 +10,7 @@ def parse(path):
     pessoas = []
     #vai servir para eliminar linhas repetidas
     pessoas_rep={}
-    #vai servir para eliminar linhas invalidas
+    #vai servir para eliminar linhas invalidas(tou a considerar que todos os campos tem de tar prenchidos execpto o ultimo)
     reg_exp = r"^(\d+)::(\d{4}-\d{2}-\d{2})::((\w+ )*(\w+))::((\w+ )*(\w+))::((\w+ )*(\w+))::(.*)::$"
 
     for line in lines:
@@ -50,9 +51,9 @@ def main():
 else - exit
         """))
         if option == 0:
-            None
+            print_tabelas(frequencia(pessoas,"Processo",1),1)
         elif option == 1:
-            None
+            print_tabelas(frequencia(pessoas,"Ano",1000))
         elif option == 2:
             None
         elif option == 3:
