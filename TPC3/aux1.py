@@ -96,12 +96,10 @@ def print_tabelas(dict1,dim):
     
     matrix,tam=dict_to_matriz(dict1)
 
-    tam_sep = 0
     separador="-"
     for i in tam:
-        tam_sep+=i+1
-    for i in range(tam_sep):
-        separador+="-"
+        for j in range(i+1):
+            separador+="-"
     separador+="\n"
 
     tabela = separador
