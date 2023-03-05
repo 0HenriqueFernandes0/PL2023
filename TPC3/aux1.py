@@ -46,13 +46,12 @@ def frequencia(pessoas,key_word,tempo):
 def frequencia_familiares(pessoas):
     dict1 = {}
     for pessoa in pessoas:
-        type = re.findall(r"(?:,(\w+ )*\w+\.)",pessoa[5])
+        type = re.findall(r"(?:,(([A-Z][a-z]+ )*([A-Z][a-z]+))\. Proc.\d+)",pessoa[5])
         for t in type:
-            if(t in dict1):
-                dict1[t]+=1
+            if(t[0] in dict1):
+                dict1[t[0]]+=1
             else :
-                dict1[t]=0
-    print (dict1)
+                dict1[t[0]]=1
     return dict1
 
 def TOP(dict,n):

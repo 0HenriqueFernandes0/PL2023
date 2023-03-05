@@ -57,7 +57,7 @@ else - exit
         elif option == 2:
             print_tabelas(TOP(frequencia(pessoas,"apelido",100),5),2)
         elif option == 3:
-            frequencia_familiares(pessoas)
+            print_tabelas(frequencia_familiares(pessoas),1)
         elif option == 4:
             json(pessoas)
         else:
