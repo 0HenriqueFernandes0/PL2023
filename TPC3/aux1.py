@@ -1,3 +1,4 @@
+import re
 def value(pessoa,key_word):
     if key_word == "Processo":
         return pessoa[0]
@@ -16,7 +17,7 @@ def value(pessoa,key_word):
     elif key_word == "Observações":
         return pessoa[5]
     elif key_word == "nome propio":
-        return pessoa[5]
+        return re.match(r"\w+",pessoa[2])
     elif key_word == "apelido":
         return pessoa[5]
     
@@ -41,6 +42,17 @@ def frequencia(pessoas,key_word,tempo):
                 frequencias[valor]=1
     return frequencias
 
+def TOP(dict,n):
+    for key in list(dict.keys()):
+        maiores = []
+        for value in dict[key].keys():
+            maiores.append(value)
+
+        dict[key]=sorted(maiores,key=lambda x: dict[key][x],reverse=True)[:n]
+    print(dict)
+    return(dict)
+
+
 def print_tabelas(dict1,dim):
 
     if dim == 1:
@@ -48,39 +60,57 @@ def print_tabelas(dict1,dim):
             for key in list(dict1):
                 dict1[key]=len(dict1[key])
     
-    string = ""
+    matrix = []
+    tam = [0]
+    if (len(dict1) < len(str(list(dict1.values())[0]))):
+        for value in sorted(list(dict1.keys())):
+            tam.append(len(str(value)))
+        matrix.append(sorted(list(dict1.keys())))
+        for key in sorted(list(dict1.keys())):
+            i=0
+            for value in dict[key]:
+                if(len(matrix)<i+1):
+                    matrix.append=[]
+                matrix[i].append(value)
+                if(len(str(value))>tam[i]):
+                    tam[i]=len(str(value))
+                i+=1
+    else : 
+        for key in sorted(list(dict1.keys())):
+            line = [key]
+            if tam[0]<len(str(key)):
+                tam[0]=len(str(key))
 
-    x = len(dict1)
-    y = len(list(dict1.values())[0])
+            line.append(str(dict1[key]))
+            i=1
+            for valor in dict[key]:
+                if(len(tam)<i+1): 
+                    tam.append(len(str(valor)))
+                elif (tam[i]<len(str(valor))):
+                    tam[i]=len(str(valor))
+                i+=1
+            matrix.append(line)
 
-    
-    tam_1=0
-    keys = sorted(list(dict1.keys()))
-    for nome in keys:
-        if (len(str(nome))>tam_1):
-            tam_1 = len(str(nome))
-    tam_1 += 4
-    tam_2 = 0
-    for valor in dict1.values():
-        if (len(str(valor))>tam_1):
-            tam_2 = len(str(valor))
-    tam_2 += 4
+    tam_sep = 0
+    separador=""
+    for i in tam:
+        tam_sep+=i+1
+    for i in range(tam_sep):
+        separador+="-"
+    separador+="\n"
 
-    for i in range(tam_1+tam_2+1):
-        string += '-'
-
-    for i in range(len(keys)):
-        string += "\n|" + str(keys[i])
-        for n in range(len(str(keys[i])), tam_1-1):
-            string += ' '
-        string += '|' + str(dict1[keys[i]])
-        for n in range(len(str(dict1[keys[i]])), tam_2-1):
-            string += ' '
-        string += "|\n|"
-        for i in range(tam_1-1):
-            string += '-'
-        string += "|"
-        for i in range(tam_2-1):
-            string += '-'
-        string += "|"
-    print(string)
+    print(len(tam))
+    print(len(matrix[0]))
+    tabela = ""
+    for line in matrix:
+        colum=0
+        new_line=""
+        for valor in line:
+            valor="|"+str(valor)
+            for i in range(len(valor),tam[colum]):
+                valor+=" "
+            colum+=1
+            new_line += valor +"|"
+        tabela+=new_line +"\n"
+        tabela+=separador
+    print(tabela)

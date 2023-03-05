@@ -53,7 +53,7 @@ else - exit
         if option == 0:
             print_tabelas(frequencia(pessoas,"Processo",1),1)
         elif option == 1:
-            print_tabelas(frequencia(pessoas,"Ano",1000))
+            print_tabelas(TOP(frequencia(pessoas,"nome propio",100),5),2)
         elif option == 2:
             None
         elif option == 3:
