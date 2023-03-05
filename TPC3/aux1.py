@@ -17,9 +17,10 @@ def value(pessoa,key_word):
     elif key_word == "Observações":
         return pessoa[5]
     elif key_word == "nome propio":
-        return re.match(r"\w+",pessoa[2])
+        return re.match(r"\w+",pessoa[2]).group(0)
     elif key_word == "apelido":
-        return pessoa[5]
+        lista = re.findall(r"\w+$",pessoa[2])
+        return lista[len(lista)-1]
     
 def frequencia(pessoas,key_word,tempo):
     frequencias = {}
@@ -49,8 +50,10 @@ def TOP(dict,n):
             maiores.append(value)
 
         dict[key]=sorted(maiores,key=lambda x: dict[key][x],reverse=True)[:n]
-    print(dict)
     return(dict)
+
+def json(pessoas):
+    pagjson="{pessoas:{"
 
 
 def print_tabelas(dict1,dim):
@@ -61,29 +64,42 @@ def print_tabelas(dict1,dim):
                 dict1[key]=len(dict1[key])
     
     matrix = []
-    tam = [0]
+    tam = []
+     
     if (len(dict1) < len(str(list(dict1.values())[0]))):
+        matrix.append([])
         for value in sorted(list(dict1.keys())):
             tam.append(len(str(value)))
-        matrix.append(sorted(list(dict1.keys())))
+            matrix[0].append(str(value))
+        t=0
         for key in sorted(list(dict1.keys())):
-            i=0
-            for value in dict[key]:
+            i=1
+            listvalues = dict1[key]
+            if(len(listvalues)>0 and type(listvalues[0])==dict):
+                sorted(listvalues,key=lambda x:dict1[key][x],reverse=True)
+            for value in listvalues:
                 if(len(matrix)<i+1):
-                    matrix.append=[]
+                    matrix.append([])
                 matrix[i].append(value)
-                if(len(str(value))>tam[i]):
-                    tam[i]=len(str(value))
+                if(len(tam)<t+1):
+                    tam.append(len(str(value)))
+                elif(len(str(value))>tam[t]):
+                    tam[t]=len(str(value))
                 i+=1
+            t+=1
     else : 
         for key in sorted(list(dict1.keys())):
             line = [key]
-            if tam[0]<len(str(key)):
+            if(len(tam)<1):
+                tam.append(len(str(key)))
+            elif tam[0]<len(str(key)):
                 tam[0]=len(str(key))
 
             line.append(str(dict1[key]))
             i=1
-            for valor in dict[key]:
+
+            listvalues = [dict1[key]]
+            for valor in listvalues:
                 if(len(tam)<i+1): 
                     tam.append(len(str(valor)))
                 elif (tam[i]<len(str(valor))):
@@ -92,21 +108,19 @@ def print_tabelas(dict1,dim):
             matrix.append(line)
 
     tam_sep = 0
-    separador=""
+    separador="-"
     for i in tam:
         tam_sep+=i+1
     for i in range(tam_sep):
         separador+="-"
     separador+="\n"
 
-    print(len(tam))
-    print(len(matrix[0]))
-    tabela = ""
+    tabela = separador
     for line in matrix:
         colum=0
-        new_line=""
+        new_line="|"
         for valor in line:
-            valor="|"+str(valor)
+            valor=str(valor)
             for i in range(len(valor),tam[colum]):
                 valor+=" "
             colum+=1

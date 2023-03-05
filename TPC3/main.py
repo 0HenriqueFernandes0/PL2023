@@ -55,7 +55,7 @@ else - exit
         elif option == 1:
             print_tabelas(TOP(frequencia(pessoas,"nome propio",100),5),2)
         elif option == 2:
-            None
+            print_tabelas(TOP(frequencia(pessoas,"apelido",100),5),2)
         elif option == 3:
             None
         elif option == 4:
