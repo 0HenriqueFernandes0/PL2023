@@ -1,31 +1,67 @@
 import re
 
-def main():
-    path="processos.txt"
+def parse(path):
     file = open(path,"r")
     lines = file.read().split('\n')
-    reg_exp = r"(?P<pid>\d+)"
+
+    #onde vai ser armazenado o dataset
+    #e uma lista de pessoas, cada pessoa vai ser uma lista em que -> [int Processo | int [Ano | mes | dia ] | str Nome | str Pai | str Mãe | str Observações]
+    pessoas = []
+    #vai servir para eliminar linhas repetidas
+    pessoas_rep={}
+    #vai servir para eliminar linhas invalidas
+    reg_exp = r"^(\d+)::(\d{4}-\d{2}-\d{2})::((\w+ )*(\w+))::((\w+ )*(\w+))::((\w+ )*(\w+))::(.*)::$"
+
     for line in lines:
-        coluna = re.split(r"::",line)
-        if len(coluna) ==  6 or len(coluna) == 7:
-            None
+        if re.match(reg_exp,line):
+            coluna = re.split(r"::",line)
+            coluna.pop()
+            data = re.split(r"-",coluna[1])
+            coluna[1]=list(map(int,data))
+            coluna[0]=int(coluna[0])
+  
+            if coluna[2] in pessoas_rep:#existe pelo menos uma pessoa com esse nome, podendo ser a mesma pessoa(repetida)
+                igual = False
+                for pessoa in pessoas_rep[coluna[2]]:
+                    if coluna == pessoa:
+                        igual = True
+                        break
+                if not igual:#se entrar aqui significa que existe outra pessoa com o mesmo nome(nao repetida)
+                    pessoas_rep[coluna[2]].append(coluna)
+                    pessoas.append(coluna)
+            else:
+                pessoas_rep[coluna[2]]=[coluna]
+                pessoas.append(coluna)
+
+    return pessoas
+
+def main():
+    path="processos.txt"
+    pessoas = parse(path)
 
     option =0
-    while option!= -1:
+    while option != -1:
         option=int(input("""
-0 - distribuição da doença por sexo
-1 - distribuição da doença por escalões etários
-2 - distribuição da doença por níveis de colesterol
-3 - exit
+0 - frequência de processos por ano
+1 - TOP 5 nomes próprios
+2 - TOP 5 apelidos
+3 - frequência dos tipos de relação ( irmão, sobrinho...)
+4 - Converta os 20 primeiros registos num novo ficheiro de output em formato Json
+else - exit
         """))
         if option == 0:
-            print_tabelas(tabela.exc1())
+            None
         elif option == 1:
-            print_tabelas(tabela.exc2())
+            None
         elif option == 2:
-            print_tabelas(tabela.exc3())
+            None
+        elif option == 3:
+            None
+        elif option == 4:
+            None
         else:
             option = -1
+                
 
 
 if __name__ == '__main__':
