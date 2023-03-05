@@ -43,6 +43,18 @@ def frequencia(pessoas,key_word,tempo):
                 frequencias[valor]=1
     return frequencias
 
+def frequencia_familiares(pessoas):
+    dict1 = {}
+    for pessoa in pessoas:
+        type = re.findall(r"(?:,(\w+ )*\w+\.)",pessoa[5])
+        for t in type:
+            if(t in dict1):
+                dict1[t]+=1
+            else :
+                dict1[t]=0
+    print (dict1)
+    return dict1
+
 def TOP(dict,n):
     for key in list(dict.keys()):
         maiores = []
@@ -53,9 +65,29 @@ def TOP(dict,n):
     return(dict)
 
 def json(pessoas):
-    pagjson="{pessoas:{"
-
-
+    pagjson="""{
+                    "pessoas":[
+            """
+    for i in range(20):
+        if(len(pessoas)>i+1):
+            pagjson+="{"+f"""       "Processo":{value(pessoas[i],'Processo')},
+                                    "Ano":{value(pessoas[i],'Ano')},
+                                    "Mes":{value(pessoas[i],'Mes')},
+                                    "Dia":{value(pessoas[i],'Dia')},
+                                    "Nome":"{value(pessoas[i],'Nome')}",
+                                    "Pai":"{value(pessoas[i],'Pai')}",
+                                    "Mae":"{value(pessoas[i],'Mae')}",
+                                    "Observações":"{value(pessoas[i],'Observações')}"
+            """
+            if (i==19):
+                pagjson+="}"
+            else :pagjson+="},"
+    pagjson+="""            ]
+                }"""
+    file = open("output.json", "w")
+    file.write(pagjson)
+    file.close
+        
 def print_tabelas(dict1,dim):
 
     if dim == 1:
@@ -63,6 +95,31 @@ def print_tabelas(dict1,dim):
             for key in list(dict1):
                 dict1[key]=len(dict1[key])
     
+    matrix,tam=dict_to_matriz(dict1)
+
+    tam_sep = 0
+    separador="-"
+    for i in tam:
+        tam_sep+=i+1
+    for i in range(tam_sep):
+        separador+="-"
+    separador+="\n"
+
+    tabela = separador
+    for line in matrix:
+        colum=0
+        new_line="|"
+        for valor in line:
+            valor=str(valor)
+            for i in range(len(valor),tam[colum]):
+                valor+=" "
+            colum+=1
+            new_line += valor +"|"
+        tabela+=new_line +"\n"
+        tabela+=separador
+    print(tabela)
+
+def dict_to_matriz(dict1):
     matrix = []
     tam = []
      
@@ -106,25 +163,4 @@ def print_tabelas(dict1,dim):
                     tam[i]=len(str(valor))
                 i+=1
             matrix.append(line)
-
-    tam_sep = 0
-    separador="-"
-    for i in tam:
-        tam_sep+=i+1
-    for i in range(tam_sep):
-        separador+="-"
-    separador+="\n"
-
-    tabela = separador
-    for line in matrix:
-        colum=0
-        new_line="|"
-        for valor in line:
-            valor=str(valor)
-            for i in range(len(valor),tam[colum]):
-                valor+=" "
-            colum+=1
-            new_line += valor +"|"
-        tabela+=new_line +"\n"
-        tabela+=separador
-    print(tabela)
+    return(matrix,tam)
