@@ -130,23 +130,19 @@ def dict_to_matriz(dict1):
                 if(len(matrix)<i+1):
                     matrix.append([])
                 matrix[i].append(value)
-                if(len(tam)<t+1):
-                    tam.append(len(str(value)))
-                elif(len(str(value))>tam[t]):
+                if(len(str(value))>tam[t]):
                     tam[t]=len(str(value))
                 i+=1
             t+=1
     else : 
+        tam.append(0)
         for key in sorted(list(dict1.keys())):
             line = [key]
-            if(len(tam)<1):
-                tam.append(len(str(key)))
-            elif tam[0]<len(str(key)):
+            if tam[0]<len(str(key)):
                 tam[0]=len(str(key))
 
             line.append(str(dict1[key]))
             i=1
-
             listvalues = [dict1[key]]
             for valor in listvalues:
                 if(len(tam)<i+1): 
