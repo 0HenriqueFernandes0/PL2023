@@ -85,7 +85,7 @@ def json(pessoas):
                 }"""
     file = open("output.json", "w")
     file.write(pagjson)
-    file.close
+    file.close()
         
 def print_tabelas(dict1,dim):
 
