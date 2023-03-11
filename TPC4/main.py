@@ -45,8 +45,9 @@ def parse(path):
     for colun in cabeçalho:
         n = re.search(r"{(\d+)}",colun)
         if (n):
+            grupo = colun.split("{")[0]
             for i in range(int(n.group(1))):
-                expre+="(\w+),"
+                expre+=f"(?P<{grupo}{i}>\w+),"
         else: 
             n = re.search(r"{(\d+),(\d+)}",colun)
             if (n):
@@ -58,13 +59,27 @@ def parse(path):
                 expre+=f"(?P<{colun}>\w+),"
     expre=expre[:-1]
 
+
     lista = []
     for line in lines:
         n = re.match(expre,line)
         if n :
             dict={}
             for i in range(len(cabeçalho)):
-                dict[cabeçalho[i]]=n.group(cabeçalho[i])
+                if "{" not in cabeçalho[i]:
+                    dict[cabeçalho[i]]=n.group(cabeçalho[i])
+                else:
+                    grupo = cabeçalho[i].split("{")[0]
+
+                    new_dict = n.groupdict()
+                    dict[cabeçalho[i]]=[new_dict[grupo+"0"]]
+                    j=i
+                    key = grupo+str(j)
+                    while key in new_dict.keys():
+                        dict[cabeçalho[i]].append(new_dict[key])
+                        j+=1
+                        key = grupo+str(j)
+        
             lista.append(dict)
 
     return lista
