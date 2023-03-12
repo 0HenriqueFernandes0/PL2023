@@ -39,7 +39,7 @@ def parse(path):
     file = open(path,"r")
     lines = file.read().split('\n')
     
-    cabeçalho = re.findall(r"(\w+(?:{\d+}|{\d+,\d+})*)",lines[0])
+    cabeçalho = re.findall(r"(\w+(?:{\d+}(?:::(?:\w)+)*|{\d+,\d+}(?:::(?:\w)+)*)*)",lines[0])
 
     expre = ""
     for colun in cabeçalho:
@@ -73,15 +73,24 @@ def parse(path):
                     grupo = cabeçalho[i].split("{")[0]
 
                     new_dict = n.groupdict()
-                    dict[grupo]=[new_dict[grupo+"0"]]
+                    lista_valores=[new_dict[grupo+"0"]]
                     j=1
                     key = grupo+str(j)
                     while key in new_dict.keys():
                         if new_dict[key] == "":
                             break
-                        dict[grupo].append(new_dict[key])
+                        lista_valores.append(new_dict[key])
                         j+=1
                         key = grupo+str(j)
+                    operation = cabeçalho[i].split("::")[1]
+                    if operation == "":
+                        dict[grupo]=lista_valores
+                    elif operation == "sum":
+                        lista_valores= list(map(int, lista_valores))
+                        dict[grupo] = str(sum(lista_valores))
+                    elif operation == "media":
+                        lista_valores= list(map(int, lista_valores))
+                        dict[grupo] = str(sum(lista_valores)/len(lista_valores))
         
             lista.append(dict)
 
