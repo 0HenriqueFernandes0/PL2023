@@ -1,27 +1,27 @@
 import re
 
-def json(list):
+def json(list_i):
 
     pagjson="["
-    for dict in list:
+    for dict in list_i:
         pagjson+="""
             {
                 """
 
         for i in dict.keys():
-            if type(dict[i]) != list:
+            if type(dict[i]) is not list:
                 value = dict[i]
                 if(not value.isdigit()):
                     value = f""" "{value}" """
                 pagjson+=f"""       "{i}":{value},\n"""
             else:
-                pagjson+=+f"""       {i}:["""
+                pagjson+=f"""       "{i}":["""
                 for value in dict[i]:
                     if(not value.isdigit()):
                         value = f""" "{value}" """
                     pagjson+=f"{value},"
                 pagjson=pagjson[:-1]
-                pagjson+="],"
+                pagjson+="],\n"
 
         pagjson=pagjson[:-2]
         pagjson+="""
@@ -51,10 +51,11 @@ def parse(path):
         else: 
             n = re.search(r"{(\d+),(\d+)}",colun)
             if (n):
+                grupo = colun.split("{")[0]
                 for i in range(int(n.group(1))):
-                    expre+="(\w+),"
-                for i in range(int(n.group(2))-int(n.group(1))):
-                    expre+="(\w*),"
+                    expre+=f"(?P<{grupo}{i}>\w+),"
+                for i in range(int(n.group(1)),int(n.group(2))):
+                    expre+=f"(?P<{grupo}{i}>\w*),"
             else:
                 expre+=f"(?P<{colun}>\w+),"
     expre=expre[:-1]
@@ -72,11 +73,13 @@ def parse(path):
                     grupo = cabeçalho[i].split("{")[0]
 
                     new_dict = n.groupdict()
-                    dict[cabeçalho[i]]=[new_dict[grupo+"0"]]
-                    j=i
+                    dict[grupo]=[new_dict[grupo+"0"]]
+                    j=1
                     key = grupo+str(j)
                     while key in new_dict.keys():
-                        dict[cabeçalho[i]].append(new_dict[key])
+                        if new_dict[key] == "":
+                            break
+                        dict[grupo].append(new_dict[key])
                         j+=1
                         key = grupo+str(j)
         

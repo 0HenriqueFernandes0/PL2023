@@ -1,11 +1,34 @@
 [
             {
-              
+                       "idade":[40],
+       "sexo": "M" ,
+       "tensao":140,
+       "colesterol":289,
+       "batimento":172,
+       "temDoenca":0
         },
             {
-              
+                       "idade":[49,7],
+       "sexo": "F" ,
+       "tensao":160,
+       "colesterol":180,
+       "batimento":156,
+       "temDoenca":1
         },
             {
-              
+                       "idade":[37,7],
+       "sexo": "M" ,
+       "tensao":130,
+       "colesterol":283,
+       "batimento":98,
+       "temDoenca":0
+        },
+            {
+                       "idade":[48,7],
+       "sexo": "F" ,
+       "tensao":138,
+       "colesterol":214,
+       "batimento":108,
+       "temDoenca":1
         }
     ]

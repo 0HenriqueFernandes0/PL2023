@@ -1,5 +1,5 @@
-idade{2},,sexo,tensao,colesterol,batimento,temDoenca
-40,M,140,289,172,0
+idade{1,2},,sexo,tensao,colesterol,batimento,temDoenca
+40,,M,140,289,172,0
 49,7,F,160,180,156,1
 37,7,M,130,283,98,0
 48,7,F,138,214,108,1
