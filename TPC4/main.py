@@ -1,6 +1,6 @@
 import re
 
-def json(list_i):
+def json(list_i,path):
 
     pagjson="["
     for dict in list_i:
@@ -31,7 +31,7 @@ def json(list_i):
     pagjson+="""
     ]"""
 
-    file = open("output.json", "w")
+    file = open(path+".json", "w")
     file.write(pagjson)
     file.close()
 
@@ -91,6 +91,10 @@ def parse(path):
                     elif operation == "media":
                         lista_valores= list(map(int, lista_valores))
                         dict[grupo] = str(sum(lista_valores)/len(lista_valores))
+                    elif operation == "maior":
+                        dict[grupo] = str(max(lista_valores, key=int))
+                    elif operation == "menor":
+                        dict[grupo] = str(min(lista_valores, key=int))
         
             lista.append(dict)
 
@@ -100,7 +104,7 @@ def parse(path):
 def main():
     path="myheart.csv"
     set = parse(path)
-    json(set)
+    json(set,path.split(".")[0])
                 
 
 
