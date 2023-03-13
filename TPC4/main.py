@@ -5,20 +5,19 @@ def json(list_i,path):
     pagjson="["
     for dict in list_i:
         pagjson+="""
-            {
-                """
+            {\n"""
 
         for i in dict.keys():
             if type(dict[i]) is not list:
                 value = dict[i]
                 if(not value.isdigit()):
                     value = f""" "{value}" """
-                pagjson+=f"""       "{i}":{value},\n"""
+                pagjson+=f"""           "{i}":{value},\n"""
             else:
-                pagjson+=f"""       "{i}":["""
+                pagjson+=f"""           "{i}":["""
                 for value in dict[i]:
                     if(not value.isdigit()):
-                        value = f""" "{value}" """
+                        value = f"""    "{value}" """
                     pagjson+=f"{value},"
                 pagjson=pagjson[:-1]
                 pagjson+="],\n"
