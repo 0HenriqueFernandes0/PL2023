@@ -1,6 +1,7 @@
 import re
 
 def ligar(numero,saldo):
+    sucesso=1
     m = re.match("^601",numero)
     n = re.match("^641",numero)
     if m or n:
@@ -8,6 +9,14 @@ def ligar(numero,saldo):
     else:
         m = re.match("^00",numero)
         if m:
+            saldo_t = saldo[1]*100+saldo[0]
+            if saldo_t>150:
+                saldo_t-=150
+                saldo[0]=saldo_t//100
+                saldo[1]=saldo_t/100
+            else:
+                sucesso=0
+
 
 
 def inserir(groups,saldo):

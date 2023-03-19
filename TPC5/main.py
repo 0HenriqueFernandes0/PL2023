@@ -7,7 +7,7 @@ def main():
     #3-ABORTAR -> 0
     #4-PAUSAR -> 0
     #5- fechar pograma(nao é um estado como os outros)
-    Estado = 0
+    Estado = 4
     saldo = [0,0]
     while Estado < 5 :
         text = input()
@@ -26,7 +26,7 @@ def main():
         elif Estado == 1:
             m = re.match("^T=(\d+)$",text)
             if m:
-                print(ligar(m.group(1),saldo))
+                sucesso = ligar(m.group(1),saldo)
                 Estado = 2
             elif re.match("ABORTAR",text):
                 Estado = 3
@@ -54,6 +54,8 @@ def main():
                 print("""maq: "Introduza moedas." """)
             else:
                 print("Telefone ainda nao foi levantado.")
+        else:
+            Estado=5
 
 
 
